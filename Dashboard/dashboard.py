@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 st.header('Bike Dashboard')
 
-df = pd.read_csv('Dashboard/all_data.csv')
+df = pd.read_csv('/Dashboard/all_data.csv')
 
 df['dteday'] = pd.to_datetime(df['dteday'])
 
