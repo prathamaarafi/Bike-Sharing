@@ -10,5 +10,5 @@ dashboard.py berisi file analisis data
 ```
 ## Run steamlit app
 ```
-streamlit run dashboard.py
+streamlit run Dashboard/dashboard.py
 ```
