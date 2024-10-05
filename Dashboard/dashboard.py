@@ -36,18 +36,16 @@ if selected_year and selected_month:
     plt.title(f'Perbandingan Rata-rata Pengunjung: Weekday vs Holiday di {selected_month}/{selected_year}')
     plt.ylabel('Rata-rata Pengunjung')
     plt.xlabel('Tipe Hari')
-    plt.xticks(ticks=[0, 1], labels=['Weekday', 'Holiday'])  # Menambahkan label yang lebih informatif
+    plt.xticks(ticks=[0, 1], labels=['Weekday', 'Holiday'])
     plt.show()
-    st.pyplot(plt.gcf())  # Menyimpan figure ke Streamlit
+    st.pyplot(plt.gcf())
 
-    # Visualisasi rata-rata pengunjung berdasarkan level kelembaban
     st.subheader(f'Average Visitors by Humidity Level for {selected_month}/{selected_year}')
 
-    # Scatterplot menggunakan seaborn
     plt.figure(figsize=(10, 6))
     sns.scatterplot(x='hum', y='cnt', data=average_rentals_hum, alpha=0.9, color='skyblue')
     plt.title(f'Pengaruh Kelembaban Terhadap Rata-rata Pengunjung di {selected_month}/{selected_year}')
     plt.xlabel('Kelembaban (%)')
     plt.ylabel('Rata-rata Pengunjung')
     plt.show()
-    st.pyplot(plt.gcf())  # Menyimpan figure ke Streamlit
+    st.pyplot(plt.gcf())
