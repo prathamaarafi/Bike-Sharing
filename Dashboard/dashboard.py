@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.header('Bike Dashboard')
@@ -24,23 +25,29 @@ if selected_year and selected_month:
 
     filtered_df['is_weekday'] = np.where(filtered_df['holiday'] == 1, 'holiday', 'weekday')
 
-    avg_visitors_weekday = filtered_df.groupby('is_weekday')['cnt'].mean().reset_index()
+    average_rentals = filtered_df.groupby('holiday')['cnt'].mean().reset_index()
+    average_rentals.columns = ['Holiday', 'Average Rentals']
 
-    avg_visitors_hum = filtered_df.groupby('hum')['cnt'].mean().reset_index()
+    average_rentals_hum = filtered_df.groupby('hum')['cnt'].mean().reset_index()
 
-    
     st.subheader(f'Average Visitors: Weekday vs Holiday for {selected_month}/{selected_year}')
-    fig1, ax1 = plt.subplots(figsize=(8, 5))
-    ax1.bar(avg_visitors_weekday['is_weekday'], avg_visitors_weekday['cnt'], color=['skyblue', 'salmon'])
-    ax1.set_title(f'Average Visitors: Weekday vs Holiday in {selected_month}/{selected_year}')
-    ax1.set_xlabel('Day Type')
-    ax1.set_ylabel('Average Visitor Count')
-    st.pyplot(fig1)
+    plt.figure(figsize=(10, 6))
+    sns.barplot(data=average_rentals, x='Holiday', y='Average Rentals', color='#FFB3BA', legend=False)
+    plt.title(f'Perbandingan Rata-rata Pengunjung: Weekday vs Holiday di {selected_month}/{selected_year}')
+    plt.ylabel('Rata-rata Pengunjung')
+    plt.xlabel('Tipe Hari')
+    plt.xticks(ticks=[0, 1], labels=['Weekday', 'Holiday'])  # Menambahkan label yang lebih informatif
+    plt.show()
+    st.pyplot(plt.gcf())  # Menyimpan figure ke Streamlit
 
+    # Visualisasi rata-rata pengunjung berdasarkan level kelembaban
     st.subheader(f'Average Visitors by Humidity Level for {selected_month}/{selected_year}')
-    fig2, ax2 = plt.subplots(figsize=(8, 5))
-    ax2.plot(avg_visitors_hum['hum'], avg_visitors_hum['cnt'], marker='o', color='skyblue')
-    ax2.set_title(f'Average Visitors by Humidity Level in {selected_month}/{selected_year}')
-    ax2.set_xlabel('Humidity')
-    ax2.set_ylabel('Average Visitor Count')
-    st.pyplot(fig2)
+
+    # Scatterplot menggunakan seaborn
+    plt.figure(figsize=(10, 6))
+    sns.scatterplot(x='hum', y='cnt', data=average_rentals_hum, alpha=0.9, color='skyblue')
+    plt.title(f'Pengaruh Kelembaban Terhadap Rata-rata Pengunjung di {selected_month}/{selected_year}')
+    plt.xlabel('Kelembaban (%)')
+    plt.ylabel('Rata-rata Pengunjung')
+    plt.show()
+    st.pyplot(plt.gcf())  # Menyimpan figure ke Streamlit
